@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Martin Mohl ">
+<meta name="description" content="In this &amp;ldquo;easy&amp;rdquo; forensics challenge from the Cybersecurity Challenge Germany 2023 Qualifier, we are given a simple netcat shell that gives us access to a linux machine. The only description that is given to the contestants is the following:
+You got access to a secret flag server, but can you find the flag? The first check after accessing the machine was to list the files in the home directory. This however does not reveal any files." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://whit3rose.github.io/ctf/ghostflag/" />
+
+
+    <title>
+        
+            GhostFlag - CSCG 2023 Qualifier :: Whit3rose 
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="https://whit3rose.github.io/main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://whit3rose.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://whit3rose.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://whit3rose.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://whit3rose.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://whit3rose.github.io/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://whit3rose.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="GhostFlag - CSCG 2023 Qualifier">
+<meta itemprop="description" content="In this &ldquo;easy&rdquo; forensics challenge from the Cybersecurity Challenge Germany 2023 Qualifier, we are given a simple netcat shell that gives us access to a linux machine. The only description that is given to the contestants is the following:
+You got access to a secret flag server, but can you find the flag? The first check after accessing the machine was to list the files in the home directory. This however does not reveal any files."><meta itemprop="datePublished" content="2023-08-03T03:19:09+02:00" />
+<meta itemprop="dateModified" content="2023-08-03T03:19:09+02:00" />
+<meta itemprop="wordCount" content="1527"><meta itemprop="image" content="https://whit3rose.github.io/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://whit3rose.github.io/"/>
+
+<meta name="twitter:title" content="GhostFlag - CSCG 2023 Qualifier"/>
+<meta name="twitter:description" content="In this &ldquo;easy&rdquo; forensics challenge from the Cybersecurity Challenge Germany 2023 Qualifier, we are given a simple netcat shell that gives us access to a linux machine. The only description that is given to the contestants is the following:
+You got access to a secret flag server, but can you find the flag? The first check after accessing the machine was to list the files in the home directory. This however does not reveal any files."/>
+
+
+
+    <meta property="og:title" content="GhostFlag - CSCG 2023 Qualifier" />
+<meta property="og:description" content="In this &ldquo;easy&rdquo; forensics challenge from the Cybersecurity Challenge Germany 2023 Qualifier, we are given a simple netcat shell that gives us access to a linux machine. The only description that is given to the contestants is the following:
+You got access to a secret flag server, but can you find the flag? The first check after accessing the machine was to list the files in the home directory. This however does not reveal any files." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://whit3rose.github.io/ctf/ghostflag/" /><meta property="og:image" content="https://whit3rose.github.io/"/><meta property="article:section" content="ctf" />
+<meta property="article:published_time" content="2023-08-03T03:19:09+02:00" />
+<meta property="article:modified_time" content="2023-08-03T03:19:09+02:00" />
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-08-03 03:19:09 &#43;0200 CEST" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://whit3rose.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text ">
+                $ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://whit3rose.github.io/ctf/">Ctf Writeups</a></li><li><a href="https://whit3rose.github.io/projects/">Projects</a></li><li><a href="https://whit3rose.github.io/research/">Research</a></li>
+        <div class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                    
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://whit3rose.github.io/ctf/ghostflag/">GhostFlag - CSCG 2023 Qualifier</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>In this &ldquo;easy&rdquo; forensics challenge from the Cybersecurity Challenge Germany 2023 Qualifier, we are given a simple netcat shell that gives us access to a linux machine. The only description that is given to the contestants is the following:</p>
+<pre tabindex="0"><code>You got access to a secret flag server, but can you find the flag?
+</code></pre><p>The first check after accessing the machine was to list the files in the home directory. This however does not reveal any files. Since the flag is supposed to be secret, it makes sense to also check for hidden files with <em>ls -la</em>. This lists the following interesting content:</p>
+<h3 id="files-on-target-machine">Files on target machine</h3>
+<pre tabindex="0"><code>ctf@ghost-flag-pgmsxysakf:/home/ctf$ ls -la
+ls -la
+total 36
+drwxr-x--- 1 ctf  ctf  4096 Mar  7 21:11 .
+drwxr-xr-x 1 root root 4096 Mar  4 17:31 ..
+-rw------- 1 ctf  ctf  1417 Mar  7 20:52 .bash_history
+-rw-r--r-- 1 ctf  ctf   220 Jan  6  2022 .bash_logout
+-rw-r--r-- 1 ctf  ctf  3771 Jan  6  2022 .bashrc
+-rw-r--r-- 1 ctf  ctf  1024 Mar  7 20:31 .flag.swp
+drwxr-xr-x 3 ctf  ctf  4096 Mar  7 20:31 .local
+-rw-r--r-- 1 ctf  ctf   807 Jan  6  2022 .profile
+</code></pre><p>As we can see, there is a <em>.flag.swp</em> file in the home directory of the user. Swap files are buffer files in binary that are most commonly known from the texteditor vim. They are usually used to create a temporary copy of a file edited with vim. Trying to simply recover the file with vim however reveals, that neither vim, nor vi are installed on the system. Therefore the next idea was to simply have a look at the contents of the swp file:</p>
+<pre tabindex="0"><code>ctf@ghost-flag-pgmsxysakf:/home/ctf$ cat .flag.swp
+cat .flag.swp
+b0nano 6.2
+</code></pre><p>The output here reveals something less known. Not only vim uses swp files, but also the texteditor nano takes advantage of them. The logical next step therefore is to open the file with nano which hopefully recovers the contents of the file. Doing this however, reveals a way more interesting scenario:</p>
+<p><img src="https://whit3rose.github.io/ghostFlag_edit.png" alt="Edit"></p>
+<p>Apparently, the flag is currently already being edited. The issue here is, that whatever has been written to this file, has never been saved and therefore the contents of the <em>flag</em> file cannot be simply accessed.
+However, this still gives us some new, useful information: Most likely, another process is currently in the progress of writing the flag to this file. Checking the running processes makes this scenario even more likely:</p>
+<pre tabindex="0"><code>ctfghost-flag-pgmsxysakf/home/ctf/flagctf@ghost-flag-pgmsxysakf:/home/ctf$ ps aux
+ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0  10288  4496 ?        Ss   20:31   0:00 socat tcp-l:1
+root           7  0.0  0.0  10288  3056 ?        S    20:31   0:00 socat EXEC:/u
+ctf           10  0.0  0.0   3996  2892 ?        S    20:31   0:00 /usr/bin/nano
+root         173  0.0  0.0  10288   740 ?        R    20:52   0:00 socat tcp-l:1
+ctf          174  0.0  0.0   4628  3700 pts/1    Ss   20:52   0:00 /bin/bash
+ctf          193  0.0  0.0   7060  1580 pts/1    R+   21:12   0:00 ps aux
+</code></pre><p>As it can be seen in this output, the <em>ctf</em> user, which is the user we have access to, has a running procces (PID=10) that uses nano. This information reveals the idea behind the challenge:
+Our user is running a process that uses nano to write the flag into a file. This file however, has never been properly saved on the machine. Therefore we need to get access to the running process which might allow us to read the written flag.</p>
+<p>The first idea that came to my mind was to simply look for nano commands that might be able to recover the contents of the file. Looking through the manual of <em>nano</em> unfortunately did not reveal any such options. However, this search resulted in a different option:</p>
+<pre tabindex="0"><code>In some cases nano will try to dump the buffer into an emergency file.  This will  happen  mainly  if nano receives a SIGHUP or SIGTERM or runs out of memory.  It will write the buffer into a file named nano.save if the buffer didn&#39;t have  a  name  already,  or will add a &#34;.save&#34; suffix to the current filename.  If an emergency file with that name already exists in the current directory, it  will  add  &#34;.save&#34;  plus  a  number  (e.g. &#34;.save.1&#34;)  to  the  current filename in order to make it unique.  In multibuffer mode, nano will write all the open buffers to their respective emergency files.
+</code></pre><p>The idea here is, that crashing/killing the process will create a <em>.save</em> file that might include the original contents. Trying this with different options however, did not result in anything, since no matter the method of terminating the process, nano never created such a <em>.save</em> file.</p>
+<p>The next idea was to read the memory the process is using and hoping that anything a user has currently included in a file will be found in there.
+This process however, is not as easy as I thought in the beginning. The given machine has only a very limited selection of binaries. The common methods of using <em>gdb</em>, <em>hexdump</em> or a simple C program (no compiler was installed) to extract process memory are therefore not realizable. To check however, if I am even on the right track, I tested my hypothesis on a local machine with full utilities first:</p>
+<h2 id="local-poc">Local PoC</h2>
+<p>To do this, I opened a file with nano and added some input. Without saving the file, I looked for the corresponding process and dumped the memory used by this process with <em>gcore</em>. A simple <em>strings</em> search already revealed, that the content of the file can be accessed this way.</p>
+<p><img src="https://whit3rose.github.io/ghostFlag_nano.png" alt="Nano"></p>
+<p>The next step therefore is, to find a way to properly dump the process memory on the given machine and then search for the flag in there.</p>
+<p>In the beginning, I was using access to maps to identify which areas in memory the process was using:</p>
+<pre tabindex="0"><code>ctf@ghost-flag-pibooxqepd:/home/ctf$ cat /proc/10/maps
+cat /proc/10/maps
+55895ad70000-55895ad75000 r--p 00000000 08:03 3432028                    /usr/bin/nano
+55895ad75000-55895ada7000 r-xp 00005000 08:03 3432028                    /usr/bin/nano
+55895ada7000-55895adb3000 r--p 00037000 08:03 3432028                    /usr/bin/nano
+55895adb4000-55895adb5000 r--p 00043000 08:03 3432028                    /usr/bin/nano
+55895adb5000-55895adb6000 rw-p 00044000 08:03 3432028                    /usr/bin/nano
+55895adb6000-55895adb7000 rw-p 00000000 00:00 0
+55895c08c000-55895c131000 rw-p 00000000 00:00 0                          [heap]
+7f07517a1000-7f07517a3000 rw-p 00000000 00:00 0
+7f07517a3000-7f07517cb000 r--p 00000000 08:03 3423724                    /usr/lib/x86_64-linux-gnu/libc.so.6
+7f07517cb000-7f0751960000 r-xp 00028000 08:03 3423724                    /usr/lib/x86_64-linux-gnu/libc.so.6
+7f0751960000-7f07519b8000 r--p 001bd000 08:03 3423724                    /usr/lib/x86_64-linux-gnu/libc.so.6
+7f07519b8000-7f07519bc000 r--p 00214000 08:03 3423724                    /usr/lib/x86_64-linux-gnu/libc.so.6
+7f07519bc000-7f07519be000 rw-p 00218000 08:03 3423724                    /usr/lib/x86_64-linux-gnu/libc.so.6
+7f07519be000-7f07519cb000 rw-p 00000000 00:00 0
+7f07519cb000-7f07519d9000 r--p 00000000 08:03 3423842                    /usr/lib/x86_64-linux-gnu/libtin
+fo.so.6.3
+7f07519d9000-7f07519ea000 r-xp 0000e000 08:03 3423842                    /usr/lib/x86_64-linux-gnu/libtin
+fo.so.6.3
+7f07519ea000-7f07519f8000 r--p 0001f000 08:03 3423842                    /usr/lib/x86_64-linux-gnu/libtin
+fo.so.6.3
+7f07519f8000-7f07519fc000 r--p 0002c000 08:03 3423842                    /usr/lib/x86_64-linux-gnu/libtin
+fo.so.6.3
+7f07519fc000-7f07519fd000 rw-p 00030000 08:03 3423842                    /usr/lib/x86_64-linux-gnu/libtin
+fo.so.6.3
+7f07519fd000-7f0751a05000 r--p 00000000 08:03 3423788                    /usr/lib/x86_64-linux-gnu/libncu
+rsesw.so.6.3
+7f0751a05000-7f0751a2e000 r-xp 00008000 08:03 3423788                    /usr/lib/x86_64-linux-gnu/libncu
+rsesw.so.6.3
+7f0751a2e000-7f0751a36000 r--p 00031000 08:03 3423788                    /usr/lib/x86_64-linux-gnu/libncu
+rsesw.so.6.3
+7f0751a36000-7f0751a37000 ---p 00039000 08:03 3423788                    /usr/lib/x86_64-linux-gnu/libncu
+rsesw.so.6.3
+7f0751a37000-7f0751a38000 r--p 00039000 08:03 3423788                    /usr/lib/x86_64-linux-gnu/libncu
+rsesw.so.6.3
+7f0751a38000-7f0751a39000 rw-p 0003a000 08:03 3423788                    /usr/lib/x86_64-linux-gnu/libncu
+rsesw.so.6.3
+7f0751a3b000-7f0751a3d000 rw-p 00000000 00:00 0
+7f0751a3d000-7f0751a3f000 r--p 00000000 08:03 3423706                    /usr/lib/x86_64-linux-gnu/ld-lin
+ux-x86-64.so.2
+7f0751a3f000-7f0751a69000 r-xp 00002000 08:03 3423706                    /usr/lib/x86_64-linux-gnu/ld-lin
+ux-x86-64.so.2
+7f0751a69000-7f0751a74000 r--p 0002c000 08:03 3423706                    /usr/lib/x86_64-linux-gnu/ld-lin
+ux-x86-64.so.2
+7f0751a75000-7f0751a77000 r--p 00037000 08:03 3423706                    /usr/lib/x86_64-linux-gnu/ld-lin
+ux-x86-64.so.2
+7f0751a77000-7f0751a79000 rw-p 00039000 08:03 3423706                    /usr/lib/x86_64-linux-gnu/ld-lin
+ux-x86-64.so.2
+7ffc2a72b000-7ffc2a74c000 rw-p 00000000 00:00 0                          [stack]
+7ffc2a78f000-7ffc2a793000 r--p 00000000 00:00 0                          [vvar]
+7ffc2a793000-7ffc2a795000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
+</code></pre><p>This information was then used to manually extract the different bytes stored in all memory locations using <em>dd</em>. For some reason however, I was not able to find the flag this way.
+Knowing what I was looking for, made it possible to once again use the internet to easen my life as I was able to find a fully functioning bash script that did exactly what I was looking for:
+<a href="https://serverfault.com/a/408929">https://serverfault.com/a/408929</a></p>
+<h3 id="script">Script</h3>
+<pre tabindex="0"><code># /bin/bash
+
+cat /proc/$1/maps | grep &#34;rw-p&#34; | awk &#39;{print $1}&#39; | ( IFS=&#34;-&#34;
+    while read a b; do
+        dd if=/proc/$1/mem bs=$( getconf PAGESIZE ) iflag=skip_bytes,count_bytes \
+           skip=$(( 0x$a )) count=$(( 0x$b - 0x$a )) of=&#34;$1_mem_$a.bin&#34;
+    done )
+</code></pre><p>Running this script created multiple files for the different memory locations.</p>
+<pre tabindex="0"><code>ctf@ghost-flag-pgmsxysakf:/home/ctf$ ls -la
+ls -la
+total 932
+drwxr-x--- 1 ctf  ctf    4096 Mar  7 21:16 .
+drwxr-xr-x 1 root root   4096 Mar  4 17:31 ..
+-rw------- 1 ctf  ctf    1417 Mar  7 20:52 .bash_history
+-rw-r--r-- 1 ctf  ctf     220 Jan  6  2022 .bash_logout
+-rw-r--r-- 1 ctf  ctf    3771 Jan  6  2022 .bashrc
+-rw-r--r-- 1 ctf  ctf    1024 Mar  7 20:31 .flag.swp
+drwxr-xr-x 3 ctf  ctf    4096 Mar  7 20:31 .local
+-rw-r--r-- 1 ctf  ctf     807 Jan  6  2022 .profile
+-rw-r--r-- 1 ctf  ctf    4096 Mar  7 21:16 10_mem_55d9535b4000.bin
+-rw-r--r-- 1 ctf  ctf    4096 Mar  7 21:16 10_mem_55d9535b5000.bin
+-rw-r--r-- 1 ctf  ctf  675840 Mar  7 21:16 10_mem_55d95420d000.bin
+-rw-r--r-- 1 ctf  ctf    8192 Mar  7 21:16 10_mem_7fbe9000a000.bin
+-rw-r--r-- 1 ctf  ctf    8192 Mar  7 21:16 10_mem_7fbe90225000.bin
+-rw-r--r-- 1 ctf  ctf   53248 Mar  7 21:16 10_mem_7fbe90227000.bin
+-rw-r--r-- 1 ctf  ctf    4096 Mar  7 21:16 10_mem_7fbe90265000.bin
+-rw-r--r-- 1 ctf  ctf    4096 Mar  7 21:16 10_mem_7fbe902a1000.bin
+-rw-r--r-- 1 ctf  ctf    8192 Mar  7 21:16 10_mem_7fbe902a4000.bin
+-rw-r--r-- 1 ctf  ctf    8192 Mar  7 21:16 10_mem_7fbe902e0000.bin
+-rw-r--r-- 1 ctf  ctf  135168 Mar  7 21:16 10_mem_7ffea3647000.bin
+-rwxr-xr-x 1 ctf  ctf     252 Mar  7 21:15 dump.sh
+</code></pre><p>From here, it was a simple search for the correct flag format through the different memory dumps:</p>
+<pre tabindex="0"><code>ctf@ghost-flag-pgmsxysakf:/home/ctf$ grep -r &#34;CSCG&#34; .
+grep -r &#34;CSCG&#34; .
+grep: ./10_mem_55d95420d000.bin: binary file matches
+</code></pre><p><img src="https://whit3rose.github.io/ghostFlag_flag.png" alt="Flag"></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://whit3rose.github.io/bundle.min.205d491810c28f95aa953fae884e1c27abe13fdf93ec63b882d0036b248d4a6282eb2d134e4e7225c6ad6e86db87b08488a361ca4a7383d01fcff43f3d57b9c3.js" integrity="sha512-IF1JGBDCj5WqlT&#43;uiE4cJ6vhP9&#43;T7GO4gtADaySNSmKC6y0TTk5yJcatbobbh7CEiKNhykpzg9Afz/Q/PVe5ww=="></script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ctfs on Whit3rose</title>
+    <link>https://whit3rose.github.io/ctf/</link>
+    <description>Recent content in Ctfs on Whit3rose</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 03 Aug 2023 03:19:09 +0200</lastBuildDate><atom:link href="https://whit3rose.github.io/ctf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GhostFlag - CSCG 2023 Qualifier</title>
+      <link>https://whit3rose.github.io/ctf/ghostflag/</link>
+      <pubDate>Thu, 03 Aug 2023 03:19:09 +0200</pubDate>
+      
+      <guid>https://whit3rose.github.io/ctf/ghostflag/</guid>
+      <description>In this &amp;ldquo;easy&amp;rdquo; forensics challenge from the Cybersecurity Challenge Germany 2023 Qualifier, we are given a simple netcat shell that gives us access to a linux machine. The only description that is given to the contestants is the following:
+You got access to a secret flag server, but can you find the flag? The first check after accessing the machine was to list the files in the home directory. This however does not reveal any files.</description>
+    </item>
+    
+  </channel>
+</rss>
