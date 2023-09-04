@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Martin Mohl ">
+<meta name="description" content="In a recent decision to recover my C skills, I decided to work on some smaller projects. One of these projects is supposed to be a file recovery tool that might allow me to recover files that I have accidentally deleted on my Ubuntu machine. To start working on this project, I first had to figure out how files are stored in Linux and what the &amp;lsquo;rm&amp;rsquo; command actually does. Based on this information, I then proceeded to write my C program that searches and recovers the deleted file." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://whit3rose.github.io/projects/filerecovery/" />
+
+
+    <title>
+        
+            File Recovery Tool :: Whit3rose 
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="https://whit3rose.github.io/main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://whit3rose.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://whit3rose.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://whit3rose.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://whit3rose.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://whit3rose.github.io/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://whit3rose.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="File Recovery Tool">
+<meta itemprop="description" content="In a recent decision to recover my C skills, I decided to work on some smaller projects. One of these projects is supposed to be a file recovery tool that might allow me to recover files that I have accidentally deleted on my Ubuntu machine. To start working on this project, I first had to figure out how files are stored in Linux and what the &lsquo;rm&rsquo; command actually does. Based on this information, I then proceeded to write my C program that searches and recovers the deleted file."><meta itemprop="datePublished" content="2023-09-04T22:58:15+02:00" />
+<meta itemprop="dateModified" content="2023-09-04T22:58:15+02:00" />
+<meta itemprop="wordCount" content="2820"><meta itemprop="image" content="https://whit3rose.github.io/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://whit3rose.github.io/"/>
+
+<meta name="twitter:title" content="File Recovery Tool"/>
+<meta name="twitter:description" content="In a recent decision to recover my C skills, I decided to work on some smaller projects. One of these projects is supposed to be a file recovery tool that might allow me to recover files that I have accidentally deleted on my Ubuntu machine. To start working on this project, I first had to figure out how files are stored in Linux and what the &lsquo;rm&rsquo; command actually does. Based on this information, I then proceeded to write my C program that searches and recovers the deleted file."/>
+
+
+
+    <meta property="og:title" content="File Recovery Tool" />
+<meta property="og:description" content="In a recent decision to recover my C skills, I decided to work on some smaller projects. One of these projects is supposed to be a file recovery tool that might allow me to recover files that I have accidentally deleted on my Ubuntu machine. To start working on this project, I first had to figure out how files are stored in Linux and what the &lsquo;rm&rsquo; command actually does. Based on this information, I then proceeded to write my C program that searches and recovers the deleted file." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://whit3rose.github.io/projects/filerecovery/" /><meta property="og:image" content="https://whit3rose.github.io/"/><meta property="article:section" content="projects" />
+<meta property="article:published_time" content="2023-09-04T22:58:15+02:00" />
+<meta property="article:modified_time" content="2023-09-04T22:58:15+02:00" />
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-09-04 22:58:15 &#43;0200 CEST" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://whit3rose.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text ">
+                $ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://whit3rose.github.io/ctf/">Ctf Writeups</a></li><li><a href="https://whit3rose.github.io/projects/">Projects</a></li><li><a href="https://whit3rose.github.io/research/">Research</a></li>
+        <div class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                    
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://whit3rose.github.io/projects/filerecovery/">File Recovery Tool</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>In a recent decision to recover my C skills, I decided to work on some smaller projects. One of these projects is supposed to be a file recovery tool that might allow me to recover files that I have accidentally deleted on my Ubuntu machine. To start working on this project, I first had to figure out how files are stored in Linux and what the &lsquo;rm&rsquo; command actually does. Based on this information, I then proceeded to write my C program that searches and recovers the deleted file. But first, let us have a look at how Linux handles files or more importantly, how it removes them:</p>
+<h2 id="linux-file-handling-and-rm-command">Linux file handling and rm command</h2>
+<p>My first idea here, was to check how rm works to figure out to what extent Linux actually allows the recovery of removed files. One often hears, that &lsquo;deleting&rsquo; a file does not actually remove any of its data but only removes the link that points to the file. So in theory, it should be possible to find the address of the beginning of the actual file in memory and then recover all its contents.
+To check, if this myth is actually true, I decided to have a look at the &lsquo;rm&rsquo; command first, since this is how one usually deletes files on Linux. The man page of the command already gives us a nice hint on how insecure the deletion of a file actually is:<br>
+(<a href="https://www.gnu.org/software/coreutils/manual/html_node/rm-invocation.html#rm-invocation">https://www.gnu.org/software/coreutils/manual/html_node/rm-invocation.html#rm-invocation</a>)</p>
+<pre tabindex="0"><code>_Warning_: If you use `rm` to remove a file, it is usually possible to recover the contents of that file. If you want more assurance that the contents are unrecoverable, consider using `shred`.
+</code></pre><p>So even the man page already warns us, that it is possible to recover the data.
+This gives me a lot of hope that recovering the contents is probably not that difficult. So let&rsquo;s figure out, what &lsquo;rm&rsquo; actually does to make a file disappear. Since Linux and its commands are open source, this should not be a problem:<br>
+(<a href="https://github.com/coreutils/coreutils/blob/master/src/rm.c">https://github.com/coreutils/coreutils/blob/master/src/rm.c</a>)<br>
+Now that we have the source code of the command, we can follow the steps that the tool goes through when we execute it in the normal way (without any options given, like &lsquo;rm testfile&rsquo;):</p>
+<p>Since we are not really interested in it, we can actually skip all of the flag handling and move straight to the part of the deletion.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">uintmax_t</span> n_files <span style="color:#f92672">=</span> argc <span style="color:#f92672">-</span> optind;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>file <span style="color:#f92672">=</span>  argv <span style="color:#f92672">+</span> optind;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (prompt_once <span style="color:#f92672">&amp;&amp;</span> (x.recursive <span style="color:#f92672">||</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&lt;</span> n_files))
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fprintf</span> (stderr,
+</span></span><span style="display:flex;"><span>			  (x.recursive
+</span></span><span style="display:flex;"><span>	           <span style="color:#f92672">?</span> <span style="color:#a6e22e">ngettext</span> (<span style="color:#e6db74">&#34;%s: remove %&#34;</span>PRIuMAX<span style="color:#e6db74">&#34; argument recursively? &#34;</span>,
+</span></span><span style="display:flex;"><span>                           <span style="color:#e6db74">&#34;%s: remove %&#34;</span>PRIuMAX<span style="color:#e6db74">&#34; arguments recursively? &#34;</span>,
+</span></span><span style="display:flex;"><span>                           <span style="color:#a6e22e">select_plural</span> (n_files))
+</span></span><span style="display:flex;"><span>               <span style="color:#f92672">:</span> <span style="color:#a6e22e">ngettext</span> (<span style="color:#e6db74">&#34;%s: remove %&#34;</span>PRIuMAX<span style="color:#e6db74">&#34; argument? &#34;</span>,
+</span></span><span style="display:flex;"><span>                           <span style="color:#e6db74">&#34;%s: remove %&#34;</span>PRIuMAX<span style="color:#e6db74">&#34; arguments? &#34;</span>,
+</span></span><span style="display:flex;"><span>                           <span style="color:#a6e22e">select_plural</span> (n_files))),
+</span></span><span style="display:flex;"><span>               program_name, n_files);
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">yesno</span> ())
+</span></span><span style="display:flex;"><span>		  <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> RM_status status <span style="color:#f92672">=</span> <span style="color:#a6e22e">rm</span> (file, <span style="color:#f92672">&amp;</span>x);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">affirm</span> (<span style="color:#a6e22e">VALID_STATUS</span> (status));
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> status <span style="color:#f92672">==</span> RM_ERROR <span style="color:#f92672">?</span> EXIT_FAILURE : EXIT_SUCCESS;
+</span></span></code></pre></div><p>In the first two lines, we simply figure out how many files we have to delete and then store all the file handles to those file. The tool then prints some text in case we want to recursively remove some files, and then executes the actual rm function in line 18.<br>
+So probably, the &lsquo;rm&rsquo; function is what we are actually interested in, since it takes the file and x which is the <em>rm_options</em> struct. The function can be found here:<br>
+<a href="https://github.com/coreutils/coreutils/blob/master/src/remove.c#L604">https://github.com/coreutils/coreutils/blob/master/src/remove.c#L604</a></p>
+<p>So let&rsquo;s check what this function does to our file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#a6e22e">rm</span> (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>file, <span style="color:#66d9ef">struct</span> rm_options <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>x)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">enum</span> RM_status rm_status <span style="color:#f92672">=</span> RM_OK;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>file)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">int</span> bit_flags <span style="color:#f92672">=</span> (FTS_CWDFD
+</span></span><span style="display:flex;"><span>                       <span style="color:#f92672">|</span> FTS_NOSTAT
+</span></span><span style="display:flex;"><span>                       <span style="color:#f92672">|</span> FTS_PHYSICAL);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (x<span style="color:#f92672">-&gt;</span>one_file_system)
+</span></span><span style="display:flex;"><span>        bit_flags <span style="color:#f92672">|=</span> FTS_XDEV;
+</span></span><span style="display:flex;"><span>      FTS <span style="color:#f92672">*</span>fts <span style="color:#f92672">=</span> <span style="color:#a6e22e">xfts_open</span> (file, bit_flags, nullptr);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">while</span> (true)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          FTSENT <span style="color:#f92672">*</span>ent;
+</span></span><span style="display:flex;"><span>          ent <span style="color:#f92672">=</span> <span style="color:#a6e22e">fts_read</span> (fts);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> (ent <span style="color:#f92672">==</span> nullptr)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">if</span> (errno <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                  <span style="color:#a6e22e">error</span> (<span style="color:#ae81ff">0</span>, errno, <span style="color:#a6e22e">_</span>(<span style="color:#e6db74">&#34;fts_read failed&#34;</span>));
+</span></span><span style="display:flex;"><span>                  rm_status <span style="color:#f92672">=</span> RM_ERROR;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">enum</span> RM_status s <span style="color:#f92672">=</span> <span style="color:#a6e22e">rm_fts</span> (fts, ent, x);
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">affirm</span> (<span style="color:#a6e22e">VALID_STATUS</span> (s));
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">UPDATE_STATUS</span> (rm_status, s);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fts_close</span> (fts) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">error</span> (<span style="color:#ae81ff">0</span>, errno, <span style="color:#a6e22e">_</span>(<span style="color:#e6db74">&#34;fts_close failed&#34;</span>));
+</span></span><span style="display:flex;"><span>          rm_status <span style="color:#f92672">=</span> RM_ERROR;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> rm_status;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We can skip the first part of the function for now and focus on the section that handles everything happening after the file is opened:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span>FTS <span style="color:#f92672">*</span>fts <span style="color:#f92672">=</span> <span style="color:#a6e22e">xfts_open</span> (file, bit_flags, nullptr);
+</span></span></code></pre></div><p>First, we have to figure out what <em>xfts_open</em> does to our file. To do this, let&rsquo;s have a look at the man page of <em>fts</em>:</p>
+<pre tabindex="0"><code>The fts functions are provided for traversing file hierarchies.  
+A simple overview is that the **fts_open**() function returns a &#34;handle&#34; (of type _FTS *_) that refers to a file hierarchy &#34;stream&#34;. This handle is then supplied to the other fts functions.
+</code></pre><p>So it looks like the function is simply used to get a file handle that can then be used by the other functions to actually read the file. Very much like the more commonly known &lsquo;open&rsquo; command.<br>
+In the next step, the function begins to read the file. Now we continue with the next interestingly looking function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> RM_status s <span style="color:#f92672">=</span> <span style="color:#a6e22e">rm_fts</span> (fts, ent, x);
+</span></span></code></pre></div><p><em>rm_fts</em> performs a bunch of checks to handle special cases. However, since we are only interested in simple, basic files, we can once again skip understanding most of the code and go to the switch case in the function that actually applies to our case:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* With --one-file-system, do not attempt to remove a mount point.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">           fts&#39; FTS_XDEV ensures that we don&#39;t process any entries under
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">           the mount point.  */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (ent<span style="color:#f92672">-&gt;</span>fts_info <span style="color:#f92672">==</span> FTS_DP
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&amp;&amp;</span> x<span style="color:#f92672">-&gt;</span>one_file_system
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&amp;&amp;</span> FTS_ROOTLEVEL <span style="color:#f92672">&lt;</span> ent<span style="color:#f92672">-&gt;</span>fts_level
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&amp;&amp;</span> ent<span style="color:#f92672">-&gt;</span>fts_statp<span style="color:#f92672">-&gt;</span>st_dev <span style="color:#f92672">!=</span> fts<span style="color:#f92672">-&gt;</span>fts_dev)
+</span></span><span style="display:flex;"><span>          {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">mark_ancestor_dirs</span> (ent);
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">error</span> (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">_</span>(<span style="color:#e6db74">&#34;skipping %s, since it&#39;s on a different device&#34;</span>),
+</span></span><span style="display:flex;"><span>                   <span style="color:#a6e22e">quoteaf</span> (ent<span style="color:#f92672">-&gt;</span>fts_path));
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> RM_ERROR;
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">bool</span> is_dir <span style="color:#f92672">=</span> ent<span style="color:#f92672">-&gt;</span>fts_info <span style="color:#f92672">==</span> FTS_DP <span style="color:#f92672">||</span> ent<span style="color:#f92672">-&gt;</span>fts_info <span style="color:#f92672">==</span> FTS_DNR;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">enum</span> RM_status s <span style="color:#f92672">=</span> <span style="color:#a6e22e">prompt</span> (fts, ent, is_dir, x, PA_REMOVE_DIR,
+</span></span><span style="display:flex;"><span>                                   <span style="color:#f92672">&amp;</span>dir_status);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span> (s <span style="color:#f92672">==</span> RM_OK <span style="color:#f92672">||</span> s <span style="color:#f92672">==</span> RM_USER_ACCEPTED))
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span> s;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">excise</span> (fts, ent, x, is_dir);
+</span></span><span style="display:flex;"><span>      }
+</span></span></code></pre></div><p>As it can be seen here, we mostly check if the fts info is what we want it to be, and then we return the results of the <em>excise</em> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#75715e">/* Remove the file system object specified by ENT.  IS_DIR specifies
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   whether it is expected to be a directory or non-directory.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   Return RM_OK upon success, else RM_ERROR.  */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">enum</span> RM_status
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">excise</span> (FTS <span style="color:#f92672">*</span>fts, FTSENT <span style="color:#f92672">*</span>ent, <span style="color:#66d9ef">struct</span> rm_options <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>x, <span style="color:#66d9ef">bool</span> is_dir)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> flag <span style="color:#f92672">=</span> is_dir <span style="color:#f92672">?</span> AT_REMOVEDIR : <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">unlinkat</span> (fts<span style="color:#f92672">-&gt;</span>fts_cwd_fd, ent<span style="color:#f92672">-&gt;</span>fts_accpath, flag) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (x<span style="color:#f92672">-&gt;</span>verbose)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">printf</span> ((is_dir
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">?</span> <span style="color:#a6e22e">_</span>(<span style="color:#e6db74">&#34;removed directory %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">:</span> <span style="color:#a6e22e">_</span>(<span style="color:#e6db74">&#34;removed %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)), <span style="color:#a6e22e">quoteaf</span> (ent<span style="color:#f92672">-&gt;</span>fts_path));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> RM_OK;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* The unlinkat from kernels like linux-2.6.32 reports EROFS even for
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     nonexistent files.  When the file is indeed missing, map that to ENOENT,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     so that rm -f ignores it, as required.  Even without -f, this is useful
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     because it makes rm print the more precise diagnostic.  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (errno <span style="color:#f92672">==</span> EROFS)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">struct</span> stat st;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> ( <span style="color:#f92672">!</span> (<span style="color:#a6e22e">fstatat</span> (fts<span style="color:#f92672">-&gt;</span>fts_cwd_fd, ent<span style="color:#f92672">-&gt;</span>fts_accpath, <span style="color:#f92672">&amp;</span>st,
+</span></span><span style="display:flex;"><span>                       AT_SYMLINK_NOFOLLOW)
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&amp;&amp;</span> errno <span style="color:#f92672">==</span> ENOENT))
+</span></span><span style="display:flex;"><span>        errno <span style="color:#f92672">=</span> EROFS;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">ignorable_missing</span> (x, errno))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> RM_OK;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* When failing to rmdir an unreadable directory, we see errno values
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     like EISDIR or ENOTDIR (or, on Solaris 10, EEXIST), but they would be
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     meaningless in a diagnostic.  When that happens, use the earlier, more
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     descriptive errno value.  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (ent<span style="color:#f92672">-&gt;</span>fts_info <span style="color:#f92672">==</span> FTS_DNR
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&amp;&amp;</span> (errno <span style="color:#f92672">==</span> ENOTEMPTY <span style="color:#f92672">||</span> errno <span style="color:#f92672">==</span> EISDIR <span style="color:#f92672">||</span> errno <span style="color:#f92672">==</span> ENOTDIR
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">||</span> errno <span style="color:#f92672">==</span> EEXIST)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&amp;&amp;</span> ent<span style="color:#f92672">-&gt;</span>fts_errno <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    errno <span style="color:#f92672">=</span> ent<span style="color:#f92672">-&gt;</span>fts_errno;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">error</span> (<span style="color:#ae81ff">0</span>, errno, <span style="color:#a6e22e">_</span>(<span style="color:#e6db74">&#34;cannot remove %s&#34;</span>), <span style="color:#a6e22e">quoteaf</span> (ent<span style="color:#f92672">-&gt;</span>fts_path));
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mark_ancestor_dirs</span> (ent);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> RM_ERROR;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now as seen in this line</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">unlinkat</span> (fts<span style="color:#f92672">-&gt;</span>fts_cwd_fd, ent<span style="color:#f92672">-&gt;</span>fts_accpath, flag) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><p>the function just calls the unlinkat system call to handle the deletion. To verify if I messed up my analysis this far, I decided to run strace on the actual &lsquo;rm&rsquo; command. This is something I realized I should have done at the  beginning as it would have saved me a lot of work of digging through the source code. So first lesson learned:<br>
+To figure out what a program does, it is not always necessary to dig through the code.</p>
+<p>Anyways, lets have a look at the strace output:</p>
+<pre tabindex="0"><code>execve(&#34;/usr/bin/rm&#34;, [&#34;rm&#34;, &#34;testfile&#34;], 0x7fffffffdd68 /* 65 vars */) = 0
+brk(NULL)                               = 0x555555564000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7fffffffdb90) = -1 EINVAL (Invalid argument)
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffff7fbb000
+access(&#34;/etc/ld.so.preload&#34;, R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, &#34;/etc/ld.so.cache&#34;, O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, &#34;&#34;, {st_mode=S_IFREG|0644, st_size=115831, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 115831, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7ffff7f9e000
+close(3)                                = 0
+openat(AT_FDCWD, &#34;/lib/x86_64-linux-gnu/libc.so.6&#34;, O_RDONLY|O_CLOEXEC) = 3
+read(3, &#34;\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0P\237\2\0\0\0\0\0&#34;..., 832) = 832
+pread64(3, &#34;\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0&#34;..., 784, 64) = 784
+pread64(3, &#34;\4\0\0\0 \0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0&#34;..., 48, 848) = 48
+pread64(3, &#34;\4\0\0\0\24\0\0\0\3\0\0\0GNU\0i8\235HZ\227\223\333\350s\360\352,\223\340.&#34;..., 68, 896) = 68
+newfstatat(3, &#34;&#34;, {st_mode=S_IFREG|0644, st_size=2216304, ...}, AT_EMPTY_PATH) = 0
+pread64(3, &#34;\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0&#34;..., 784, 64) = 784
+mmap(NULL, 2260560, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffff7c00000
+mmap(0x7ffff7c28000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7ffff7c28000
+mmap(0x7ffff7dbd000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000) = 0x7ffff7dbd000
+mmap(0x7ffff7e15000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x214000) = 0x7ffff7e15000
+mmap(0x7ffff7e1b000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7ffff7e1b000
+close(3)                                = 0
+mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffff7f9b000
+arch_prctl(ARCH_SET_FS, 0x7ffff7f9b740) = 0
+set_tid_address(0x7ffff7f9ba10)         = 1302150
+set_robust_list(0x7ffff7f9ba20, 24)     = 0
+rseq(0x7ffff7f9c0e0, 0x20, 0, 0x53053053) = 0
+mprotect(0x7ffff7e15000, 16384, PROT_READ) = 0
+mprotect(0x555555562000, 4096, PROT_READ) = 0
+mprotect(0x7ffff7ffb000, 8192, PROT_READ) = 0
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+munmap(0x7ffff7f9e000, 115831)          = 0
+getrandom(&#34;\xef\x06\xe0\xbc\x9c\x00\x8b\x23&#34;, 8, GRND_NONBLOCK) = 8
+brk(NULL)                               = 0x555555564000
+brk(0x555555585000)                     = 0x555555585000
+openat(AT_FDCWD, &#34;/usr/lib/locale/locale-archive&#34;, O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, &#34;&#34;, {st_mode=S_IFREG|0644, st_size=14575936, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 14575936, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7ffff6e00000
+close(3)                                = 0
+ioctl(0, TCGETS, {B38400 opost isig icanon echo ...}) = 0
+newfstatat(AT_FDCWD, &#34;testfile&#34;, {st_mode=S_IFREG|0664, st_size=5, ...}, AT_SYMLINK_NOFOLLOW) = 0
+geteuid()                               = 1000
+newfstatat(AT_FDCWD, &#34;testfile&#34;, {st_mode=S_IFREG|0664, st_size=5, ...}, AT_SYMLINK_NOFOLLOW) = 0
+faccessat2(AT_FDCWD, &#34;testfile&#34;, W_OK, AT_EACCESS) = 0
+unlinkat(AT_FDCWD, &#34;testfile&#34;, 0)       = 0
+lseek(0, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+close(0)                                = 0
+close(1)                                = 0
+close(2)                                = 0
+exit_group(0)                           = ?
++++ exited with 0 +++
+</code></pre><p>As we can see, we open the file and read a bunch of stuff. Then, at the end of the output, we can find what we were looking for:</p>
+<pre tabindex="0"><code>unlinkat(AT_FDCWD, &#34;testfile&#34;, 0)       = 0
+</code></pre><p>So we just have to figure out what unlinkat does and should then finally reach our goal of learning how rm works. As is turns out, rm is just sort of a superset of unlink/unlinkat that performs a bunch of additional checks.<br>
+The unlinkat man page gives us all the information we know:<br>
+(<a href="https://man7.org/linux/man-pages/man2/unlink.2.html">https://man7.org/linux/man-pages/man2/unlink.2.html</a>)</p>
+<pre tabindex="0"><code>The unlinkat() system call operates in exactly the same way as either unlink() or [rmdir(2)](https://man7.org/linux/man-pages/man2/rmdir.2.html) (depending on whether or not _flags_ includes the AT_REMOVEDIR flag) except for the differences described here.
+</code></pre><p>The differences to the <em>unlink</em> system call can be neglected for now, which means that we can just continue looking at <em>unlink</em> for simplicity reasons:</p>
+<pre tabindex="0"><code>unlink() deletes a name from the filesystem.  If that name was
+the last link to a file and no processes have the file open, the
+file is deleted and the space it was using is made available for
+reuse.
+
+If the name was the last link to a file but any processes still
+have the file open, the file will remain in existence until the
+last file descriptor referring to it is closed.
+
+If the name referred to a symbolic link, the link is removed.
+
+If the name referred to a socket, FIFO, or device, the name for
+it is removed but processes which have the object open may
+continue to use it.
+</code></pre><p>Finally, we know what is happening when we call our &lsquo;rm&rsquo; command. All it does, it simply delete the name from the filesystem and then calls it a day. So the data of the file is never actually deleted or overwritten, it is actually just the &rsquo;last link&rsquo; to a file that is removed.<br>
+Based on this knowledge now, I decided to build a Proof of Concept for my data recovery tool by following these simple steps:</p>
+<ol>
+<li>Create a file</li>
+<li>Figure out where the file is stored on the disk</li>
+<li>Delete the file</li>
+<li>Read the content of the disk location the file was previously stored</li>
+</ol>
+<h2 id="figuring-out-where-the-file-is-stored-on-the-disk">Figuring out where the file is stored on the disk</h2>
+<p>Considering that our file must be stored somewhere on the disk, we can assume that the system has to have a way to figure out where exactly on the disk our file is stored and therefore must be able to link the filename to a specific location on disk. So our first step is to explore how the OS knows at what location on the disk a file is stored.<br>
+Doing research on this, I found a nice little overview over how the OS remembers all this information and more specifically, how disk storage works.<br>
+(<a href="https://unix.stackexchange.com/questions/652047/how-does-the-os-access-files-stored-on-the-hard-disk">https://unix.stackexchange.com/questions/652047/how-does-the-os-access-files-stored-on-the-hard-disk</a>)<br>
+Apparently, a disk is divided in multiple blocks of storage. The kernel uses drivers for the file systems to read and write these blocks, or more specifically, file contents stored in these blocks. To paraphrase what the answer is saying, let me list the different, important sections required to handle disk storage:</p>
+<ol>
+<li>Blocks: storage on the disk is divided in multiple block with data</li>
+<li>Block Groups: blocks part of a larger block group</li>
+<li>Inode: a structured set of information about an entry on the disk (e.g file, directory). This inode holds information about a block group</li>
+<li>Directory: a list of inodes &lt;-&gt; names</li>
+<li>Super-Block: holds information about e.g number of blocks in a group, inodes, &hellip;</li>
+<li>Block Group Descriptor Table: hold information about block groups
+The answer even lists what kind of information each structure holds:</li>
+</ol>
+<ul>
+<li>Super-Block
+<ul>
+<li>total number of inodes</li>
+<li>total number of blocks</li>
+<li>number of blocks in a group</li>
+<li>number of inodes in a group</li>
+</ul>
+</li>
+<li>Block Group Descriptor Table
+<ul>
+<li>number of block groups in the partition</li>
+<li>descriptor for each block group</li>
+</ul>
+</li>
+<li>Inode (Index Node)
+<ul>
+<li>type, permission, user, dates, &hellip;</li>
+<li>pointers to data
+Based of this information, we can think about a way of accessing the file. Based on the filename, there must be a way of finding the corresponding Inode and therefore retrieve the pointer to the data.</li>
+</ul>
+</li>
+</ul>
+<h4 id="inode">Inode</h4>
+<p>Based on our current information, it would be nice to review the Inode data of a file. From there, we might get further ideas on how to actually access the data. To do this, I decided to use the &lsquo;stat&rsquo; command which gives us some of the information we are interested in:</p>
+<pre tabindex="0"><code>  File: testfile
+  Size: 5         	Blocks: 8          IO Block: 4096   regular file
+Device: 10302h/66306d	Inode: 12719601    Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/  martin)   Gid: ( 1000/  martin)
+Access: 2023-09-03 21:05:34.664040682 +0200
+Modify: 2023-09-03 21:05:34.664040682 +0200
+Change: 2023-09-03 21:05:34.664040682 +0200
+ Birth: 2023-09-03 21:05:34.664040682 +0200
+</code></pre><p>Based on this output, we can see the index of the node, the IO Block size and the amount of blocks for the file.<br>
+With this new knowledge, I did some further research. Turns out, there is a command that allows us to find the physical location on our partition:</p>
+<pre tabindex="0"><code>filefrag -v testfile
+</code></pre><pre tabindex="0"><code>Filesystem type is: ef53
+File size of testfile is 9 (1 block of 4096 bytes)
+ ext:     logical_offset:        physical_offset: length:   expected: flags:
+   0:        0..       0:   39519538..  39519538:      1:             last,eof
+testfile: 1 extent found
+</code></pre><h2 id="read-the-content-of-the-disk-location-the-file-was-previously-stored">Read the content of the disk location the file was previously stored</h2>
+<p>Now we know how big the offset from our physical start address is (39519538). This should be all the information we need. In theory, all we have to do form here is to read a bunch of bytes at the known physical offset from our partition. First, I had to figure out, what the name of my actual partition is:</p>
+<pre tabindex="0"><code>df .
+</code></pre><pre tabindex="0"><code>Filesystem     1K-blocks      Used Available Use% Mounted on
+/dev/nvme0n1p2 490617784 240765100 224857204  52% /
+</code></pre><p>Based on this information, we can use the <em>dd</em> command, to finally read the data we&rsquo;ve been looking for:</p>
+<pre tabindex="0"><code>sudo dd bs=4k skip=39519538 count=1 if=/dev/nvme0n1p2
+</code></pre><pre tabindex="0"><code>test1234
+1+0 records in
+1+0 records out
+4096 bytes (4,1 kB, 4,0 KiB) copied, 3,6266e-05 s, 113 MB/s
+</code></pre><p>Now we can test if deleting the file removes the data or not. To do this, I simply created a file, looked up all the location information I needed and then deleted it again. If we want to actually be able to recover the data from a delete file, reading the known offset must still contain the wanted information:
+<img src="https://whit3rose.github.io/poc_read_dd.png" alt="poc">
+Looks like we are lucky and actually able to read a &lsquo;deleted&rsquo; file this way.</p>
+<p>However, this is only the first part of the deal. Let us assume that we want to read a file that has already been deleted before we looked up the physical offset. Then based on our current method, we have no way of figuring out where we have to look for our data. This is where I decided to use a typical brute force approach and simply search on the entire partition for a specific sequence of characters.</p>
+<p>In this case, we know that the data consists of the string &ldquo;test1234&rdquo;. So we should be able to recover the bytes that represent these characters.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://whit3rose.github.io/bundle.min.205d491810c28f95aa953fae884e1c27abe13fdf93ec63b882d0036b248d4a6282eb2d134e4e7225c6ad6e86db87b08488a361ca4a7383d01fcff43f3d57b9c3.js" integrity="sha512-IF1JGBDCj5WqlT&#43;uiE4cJ6vhP9&#43;T7GO4gtADaySNSmKC6y0TTk5yJcatbobbh7CEiKNhykpzg9Afz/Q/PVe5ww=="></script>
+
+
+
+    </body>
+</html>

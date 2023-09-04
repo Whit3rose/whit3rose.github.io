@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Whit3rose</title>
-    <link>https://whit3rose.github.io/</link>
-    <description>Recent content on Whit3rose</description>
+    <title>Projects on Whit3rose</title>
+    <link>https://whit3rose.github.io/projects/</link>
+    <description>Recent content in Projects on Whit3rose</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 04 Sep 2023 22:58:15 +0200</lastBuildDate><atom:link href="https://whit3rose.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 04 Sep 2023 22:58:15 +0200</lastBuildDate><atom:link href="https://whit3rose.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>File Recovery Tool</title>
       <link>https://whit3rose.github.io/projects/filerecovery/</link>
@@ -15,16 +15,6 @@
       
       <guid>https://whit3rose.github.io/projects/filerecovery/</guid>
       <description>In a recent decision to recover my C skills, I decided to work on some smaller projects. One of these projects is supposed to be a file recovery tool that might allow me to recover files that I have accidentally deleted on my Ubuntu machine. To start working on this project, I first had to figure out how files are stored in Linux and what the &amp;lsquo;rm&amp;rsquo; command actually does. Based on this information, I then proceeded to write my C program that searches and recovers the deleted file.</description>
-    </item>
-    
-    <item>
-      <title>GhostFlag - CSCG 2023 Qualifier</title>
-      <link>https://whit3rose.github.io/ctf/ghostflag/</link>
-      <pubDate>Thu, 03 Aug 2023 03:19:09 +0200</pubDate>
-      
-      <guid>https://whit3rose.github.io/ctf/ghostflag/</guid>
-      <description>In this &amp;ldquo;easy&amp;rdquo; forensics challenge from the Cybersecurity Challenge Germany 2023 Qualifier, we are given a simple netcat shell that gives us access to a linux machine. The only description that is given to the contestants is the following:
-You got access to a secret flag server, but can you find the flag? The first check after accessing the machine was to list the files in the home directory. This however does not reveal any files.</description>
     </item>
     
   </channel>

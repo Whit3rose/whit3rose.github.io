@@ -2,13 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://whit3rose.github.io/projects/filerecovery/</loc>
+    <lastmod>2023-09-04T22:58:15+02:00</lastmod>
+  </url><url>
+    <loc>https://whit3rose.github.io/projects/</loc>
+    <lastmod>2023-09-04T22:58:15+02:00</lastmod>
+  </url><url>
+    <loc>https://whit3rose.github.io/</loc>
+    <lastmod>2023-09-04T22:58:15+02:00</lastmod>
+  </url><url>
     <loc>https://whit3rose.github.io/ctf/</loc>
     <lastmod>2023-08-03T03:19:09+02:00</lastmod>
   </url><url>
     <loc>https://whit3rose.github.io/ctf/ghostflag/</loc>
-    <lastmod>2023-08-03T03:19:09+02:00</lastmod>
-  </url><url>
-    <loc>https://whit3rose.github.io/</loc>
     <lastmod>2023-08-03T03:19:09+02:00</lastmod>
   </url><url>
     <loc>https://whit3rose.github.io/categories/</loc>
